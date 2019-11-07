@@ -20,7 +20,7 @@ class LoadFromJSON {
     this.jsonData = data;
   }
   jsonRequestFail = () => {
-	this.IsJSONResponseSuccessfull = false;
+    this.IsJSONResponseSuccessfull = false;
   }
   findSpecialsForTheDay = (event) => {
     if(!this.IsJSONResponseSuccessfull) {
@@ -35,10 +35,10 @@ class LoadFromJSON {
         let fontColor = this.jsonData[selectedOption][this.colorForFont];
         $(this.specialsDivId).find("div").html(`<h2> ${title} </h2> <br> ${text} <br> <img src=${img}></img>`).css("color", fontColor);
 	  }
-       else {
-         $(this.specialsDivId).find("div").html("Selected Option does not have any specials");
-       }
-     }
+      else {
+        $(this.specialsDivId).find("div").html("Selected Option does not have any specials");
+      }
+    }
   }
   isSelectedOptionPresent = (selectedOption) => {
     if(this.jsonData[selectedOption]) {
