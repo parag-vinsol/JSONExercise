@@ -1,17 +1,13 @@
 class LoadFromJSON {
-  constructor(specialsDivId, jsonPath, classForSubmitButton, title, text, image, color) {
+  constructor(specialsDivId, jsonPath, classForSubmitButton) {
     this.specialsDivId = specialsDivId;
-    $(specialsDivId).append("<div />");
     this.selectOption = $(specialsDivId).find("select");
     this.jsonPath = jsonPath;   
     this.classForSubmitButton = classForSubmitButton;
-    this.titleForSpecial = title;
-    this.textForSpecial = text;
-    this.imageForSpecial = image;
-    this.colorForFont = color;
     this.IsJSONResponseSuccessfull = true;
   }
   init() {
+    $(this.specialsDivId).append("<div />");
     $.getJSON(this.jsonPath).done(this.getJSONData).fail(this.jsonRequestFail);
     this.selectOption.change(this.findSpecialsForTheDay);
     this.removeFormButton();
@@ -29,10 +25,10 @@ class LoadFromJSON {
     else {  
       let selectedOption = $(event.target).val();
       if(this.isSelectedOptionPresent(selectedOption)) {
-	let title = this.jsonData[selectedOption][this.titleForSpecial];
-    	let text = this.jsonData[selectedOption][this.textForSpecial];
-        let img = this.jsonData[selectedOption][this.imageForSpecial];
-        let fontColor = this.jsonData[selectedOption][this.colorForFont];
+	let title = this.jsonData[selectedOption].title;
+    	let text = this.jsonData[selectedOption].text;
+        let img = this.jsonData[selectedOption].image;
+        let fontColor = this.jsonData[selectedOption].color;
         $(this.specialsDivId).find("div").html(`<h2> ${title} </h2> <br> ${text} <br> <img src=${img}></img>`).css("color", fontColor);
 	  }
       else {
@@ -41,16 +37,11 @@ class LoadFromJSON {
     }
   }
   isSelectedOptionPresent = (selectedOption) => {
-    if(this.jsonData[selectedOption]) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return selectedOption;
   }
   removeFormButton() {
     $(this.specialsDivId).find(this.classForSubmitButton).remove();
   }
 }
-var loadFromJSON = new LoadFromJSON("#specials", "data/specials.json", ".buttons", "title", "text", "image", "color");
+var loadFromJSON = new LoadFromJSON("#specials", "data/specials.json", ".buttons");
 loadFromJSON.init();
